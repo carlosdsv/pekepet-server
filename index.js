@@ -17,6 +17,6 @@ app.use(
 
 app.use(userRoutes)
 
-app.listen(config.port, () =>
+app.listen(process.env.PORT || config.port, () =>
   console.log(`App is listening on url http:localhost:${config.port}`)
 )
