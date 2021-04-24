@@ -27,11 +27,12 @@ const createPet = async (req, res, next) => {
       const pets = doc.data().pets
       if (doc.exists) {
         docRef.set({ pets: [...pets, pet] })
+        res.status(200).send({ pets: [...pets, pet] })
       } else {
         docRef.set({ pets: [pet] })
+        res.status(200).send({ pets: [pet] })
       }
     })
-    res.status(200).send('Pet created correctly')
   } catch (error) {
     res.status(400).send(error.message)
   }
