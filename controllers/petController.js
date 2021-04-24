@@ -31,7 +31,7 @@ const createPet = async (req, res, next) => {
         docRef.set({ pets: [pet] })
       }
     })
-    res.status(500).send('Pet created correctly')
+    res.status(200).send('Pet created correctly')
   } catch (error) {
     res.status(400).send(error.message)
   }
