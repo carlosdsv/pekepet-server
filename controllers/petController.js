@@ -3,6 +3,40 @@
 const firebase = require('../db')
 const firestore = firebase.firestore()
 
+const createEvent = async (req, res, next) => {
+  try {
+    const {
+      petId,
+      eventId,
+      upcomming,
+      type,
+      description,
+      date,
+      notes,
+    } = req.body
+    const event = {
+      upcomming,
+      type,
+      description,
+      date,
+      notes,
+    }
+    const newEvent = {}
+    newEvent[eventId] = event
+    const docRef = await firestore.collection('events').doc(petId)
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        docRef.update({ ...newEvent }, { merge: true })
+      } else {
+        docRef.set({ ...newEvent })
+      }
+    })
+    res.status(200).send('Event created correctly')
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+}
+
 const createPet = async (req, res, next) => {
   try {
     const {
@@ -38,6 +72,22 @@ const createPet = async (req, res, next) => {
     res.status(400).send(error.message)
   }
 }
+
+const getEvents = async (req, res, next) => {
+  try {
+    const { petId } = req.body
+    const docRef = await firestore.collection('events').doc(petId)
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        res.status(200).send(doc.data())
+      } else {
+        res.status(200).send({})
+      }
+    })
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+}
 const getPets = async (req, res, next) => {
   try {
     const { uid } = req.body
@@ -54,4 +104,4 @@ const getPets = async (req, res, next) => {
   }
 }
 
-module.exports = { createPet, getPets }
+module.exports = { createEvent, createPet, getEvents, getPets }
