@@ -15,7 +15,7 @@ const createPet = async (req, res, next) => {
       notes,
       profilePicture,
     } = req.body
-    const pet = {
+    const newPet = {
       petId,
       name,
       species,
@@ -27,10 +27,10 @@ const createPet = async (req, res, next) => {
     const docRef = await firestore.collection('pets').doc(uid)
     docRef.get().then((doc) => {
       if (doc.exists) {
-        const pets = doc.data().pets
-        docRef.set({ pets: [...pets, pet] })
+        const prevPets = doc.data().pets
+        docRef.set({ pets: [...prevPets, newPet] })
       } else {
-        docRef.set({ pets: [pet] })
+        docRef.set({ pets: [newPet] })
       }
     })
     res.status(200).send('Pet created correctly')
