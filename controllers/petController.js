@@ -7,6 +7,7 @@ const createPet = async (req, res, next) => {
   try {
     const {
       uid,
+      petId,
       name,
       species,
       breed,
@@ -15,6 +16,7 @@ const createPet = async (req, res, next) => {
       profilePicture,
     } = req.body
     const pet = {
+      petId,
       name,
       species,
       breed,
