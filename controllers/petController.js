@@ -8,14 +8,14 @@ const createEvent = async (req, res, next) => {
     const {
       petId,
       eventId,
-      upcomming,
+      upcoming,
       type,
       description,
       date,
       notes,
     } = req.body
     const event = {
-      upcomming,
+      upcoming,
       type,
       description,
       date,
@@ -81,7 +81,7 @@ const getEvents = async (req, res, next) => {
       if (doc.exists) {
         res.status(200).send(doc.data())
       } else {
-        res.status(200).send({})
+        res.status(200).send(null)
       }
     })
   } catch (error) {
