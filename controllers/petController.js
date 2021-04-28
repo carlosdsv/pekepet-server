@@ -104,4 +104,23 @@ const getPets = async (req, res, next) => {
   }
 }
 
-module.exports = { createEvent, createPet, getEvents, getPets }
+const storeImage = async (req, res, next) => {
+  try {
+    const { file } = req.body
+
+    // Create a storage reference from our storage service
+    const storageRef = await firebase.storage().ref()
+
+    // Create a reference to 'mountains.jpg'
+    const fileRef = await storageRef.child(file.name)
+    await fileRef.put(file)
+    const url = await fileRef.getDownloadURL()
+    console.log('url')
+    console.log(url)
+    res.status(200).send(url)
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+}
+
+module.exports = { createEvent, createPet, getEvents, getPets, storeImage }
