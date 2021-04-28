@@ -109,11 +109,11 @@ const storeImage = async (req, res, next) => {
     const { file } = req.body
 
     // Create a storage reference from our storage service
-    const storageRef = await firebase.storage().ref()
+    const storageRef = await firebase.storage().ref('images/' + file.name)
+    await storageRef.put(file)
 
     // Create a reference to 'mountains.jpg'
-    const fileRef = await storageRef.child(file.name)
-    await fileRef.put(file)
+    const fileRef = await storageRef.child('images/' + file.name)
     const url = await fileRef.getDownloadURL()
     console.log('url')
     console.log(url)
