@@ -81,7 +81,7 @@ const getEvents = async (req, res, next) => {
       if (doc.exists) {
         res.status(200).send(doc.data())
       } else {
-        res.status(200).send(null)
+        res.status(200).send([])
       }
     })
   } catch (error) {
